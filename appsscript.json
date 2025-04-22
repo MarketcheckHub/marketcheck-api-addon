@@ -1,7 +1,26 @@
 {
   "timeZone": "Asia/Kolkata",
-  "dependencies": {
-  },
+  "dependencies": {},
   "exceptionLogging": "STACKDRIVER",
-  "runtimeVersion": "V8"
+  "runtimeVersion": "V8",
+  "addOns": {
+    "common": {
+      "name": "Fetch Report Add-on",
+      "logoUrl": "https://github.com/MarketcheckHub/marketcheck-api-addon/blob/master/logo.svg?raw=true",
+      "layoutProperties": {
+        "primaryColor": "#1a73e8"
+      },
+      "useLocaleFromApp": true
+    },
+    "sheets": {
+      "homepageTrigger": {
+        "runFunction": "onOpen"
+      }
+    }
+  },
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/spreadsheets.currentonly",
+    "https://www.googleapis.com/auth/script.external_request",
+    "https://www.googleapis.com/auth/userinfo.email"
+  ]
 }
