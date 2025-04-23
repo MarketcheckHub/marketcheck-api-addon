@@ -262,8 +262,20 @@ function populateSheetWithCSV(sheet, csvData, dataLoadMode, a1Note) {
     return row;
   });
 
-  // Write the CSV data to the sheet
-  sheet.getRange(startRow, 1, numRows, numCols).setValues(paddedRows);
+  // Truncate or split cells exceeding the 50,000-character limit
+  const MAX_CELL_LENGTH = 50000;
+  const processedRows = paddedRows.map(row =>
+    row.map(cell => {
+      if (cell.length > MAX_CELL_LENGTH) {
+        Logger.log(`Cell content exceeds 50,000 characters. Truncating: ${cell.substring(0, 100)}...`);
+        return cell.substring(0, MAX_CELL_LENGTH); // Truncate the cell content
+      }
+      return cell;
+    })
+  );
+
+  // Write the processed CSV data to the sheet
+  sheet.getRange(startRow, 1, numRows, numCols).setValues(processedRows);
 
   // Add a note to cell A1 if provided
   if (a1Note) {
