@@ -279,11 +279,18 @@ function populateSheetWithCSV(sheet, csvData, dataLoadMode, a1Note) {
 
   // Add a note to cell A1 if provided
   if (a1Note) {
+    const MAX_NOTE_LENGTH = 5000; // Maximum allowed length for the note
     const a1Range = sheet.getRange("A1");
     const existingNote = a1Range.getNote();
     const separator = "-".repeat(50); // 50 dashes
     const updatedNote = `Update Mode: ${dataLoadMode}\n\n${a1Note}\n${separator}\n${existingNote || ""}`.trim();
-    a1Range.setNote(updatedNote);
+
+    // Truncate the final note to the maximum allowed length
+    const truncatedNote = updatedNote.length > MAX_NOTE_LENGTH
+      ? updatedNote.substring(0, MAX_NOTE_LENGTH) + "..."
+      : updatedNote;
+
+    a1Range.setNote(truncatedNote);
   }
 
   return numRows; // Return the number of rows added
